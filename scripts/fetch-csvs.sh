@@ -8,3 +8,8 @@ unzip -q "$RAW/data.zip" -d "$RAW"
 OUT="/workspace/repo/data/$(date +%Y-%m-%d)"
 mkdir -p "$OUT"
 cp "$RAW"/*.csv "$OUT"
+
+git -C /workspace/repo add "data/$(date +%Y-%m-%d)"
+git -C /workspace/repo add "scripts/fetch-csvs.sh"
+git -C /workspace/repo commit -m "revised bash script"
+git -C /workspace/repo push
