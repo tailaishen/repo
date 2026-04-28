@@ -6,7 +6,7 @@ This directory contains files for implementing and testing the computation of Ba
 
 `cd bayes_factor`
 
-`python3 -m unittest tests/test_signal_detection.py`
+`python3 -m unittest tests/test_bayes_factor.py`
 
 **Dockerfile** is used to create the container image that runs bayes factor computation and testing.
 
