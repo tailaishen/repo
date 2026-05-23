@@ -1,0 +1,10 @@
+Write a class BayesFactor in bayes_factor.py to compute bayes factor for binomial data. 
+
+The class should include 
+- a constructor __init__(n, k), with n as the number of trials and k as the number of successes
+- a function likelihood(theta) that computes the likelihood for binomial data, with theta as the success rate
+- a function evidence_slab() that computes the marginal likelihood under the slab prior (i.e. theta follows Uniform (0, 1))
+- a function evidence_spike() that computes the marginal likelihood under the spike prior (i.e. theta follows Uniform ())
+- a function bayes_factor() that computes the ratio of evidence
+
+Do not modify the test file. Do not change the function definition of the constructor.
