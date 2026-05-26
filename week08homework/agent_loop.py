@@ -14,9 +14,6 @@ TASK_DIR = Path(__file__).parent
 TEST_DIR = TASK_DIR / "tests"
 TEST_FILE = TEST_DIR / "test_bayes_factor.py"
 PROMPT_FILE = TASK_DIR / "task.txt"
-
-# Set test_bayes_factor.py to read-only(!)
-# Note this won't do anything if the agent can run as root.
 TEST_FILE.chmod(0o444)
 
 # Modifiable parameters
@@ -51,8 +48,6 @@ for attempt in range(1, MAX_ATTEMPTS + 1):
         verbose=True,
     )
 
-    # Here you could re-insert the test file if it was modified.
-
     code, output = run_tests()
     print(f"Output: {output}")
 
@@ -63,7 +58,6 @@ for attempt in range(1, MAX_ATTEMPTS + 1):
     for file in files:
         shutil.copy(file, TASK_DIR / f"attempt_{attempt}" / file.name)
 
-    # input("Press Enter to continue...")
     if code == 0:
         print(f"\nTests passed on attempt {attempt}.")
         break
