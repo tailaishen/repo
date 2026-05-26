@@ -13,7 +13,7 @@ from gemini_simple_api import GeminiSimpleAPI
 TASK_DIR = Path(__file__).parent
 TEST_DIR = TASK_DIR / "tests"
 TEST_FILE = TEST_DIR / "test_bayes_factor.py"
-PROMPT_FILE = TASK_DIR / "tasks.txt"
+PROMPT_FILE = TASK_DIR / "task.txt"
 
 # Set test_bayes_factor.py to read-only(!)
 # Note this won't do anything if the agent can run as root.
