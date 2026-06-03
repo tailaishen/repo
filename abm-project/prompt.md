@@ -8,7 +8,7 @@ The project constructus a model of individual traders updating their believes ab
 
 ### 1. Belief updating
 
-Each agent (i = 1,...,1000) represents an individual trader who updates belief following
+Each agent (i = 1,...,n) represents an individual trader who updates belief following
 
 $$
 b_i(t + 1) = \gamma b_i(t) + \delta (I(t) - N(t)) + \epsilon_i(t)
@@ -57,9 +57,9 @@ $B_{total}(t)$: aggregate trader behavior at time (t)
 
 The project simulates three different sets of model parameters and produces corresponding outputs to compare three scenarios:
 
-- Traders have low buying thresholds ($\theta_{l_i} \sim U(0.2, 0.4)$) and high selling thresholds ($\theta_{u_i} \sim U(-0.8, -0.6)$).
+- Traders have low buying thresholds $\theta_{l_i} \sim U(0.2, 0.4)$ and high selling thresholds $\theta_{u_i} \sim U(-0.8, -0.6)$.
 
-- Traders have high buying thresholds ($\theta_{l_i} \sim U(0.6, 0.8)$) and low selling thresholds ($\theta_{u_i} \sim U(-0.4, -0.2)$).
+- Traders have high buying thresholds $\theta_{l_i} \sim U(0.6, 0.8)$ and low selling thresholds $\theta_{u_i} \sim U(-0.4, -0.2)$.
 
 - Traders have mixed thresholds (half has $\theta_{l_i} \sim U(0.2, 0.4)$ and $\theta_{u_i} \sim U(-0.8, -0.6)$, the other half has $\theta_{l_i} \sim U(0.6, 0.8)$ and $\theta_{u_i} \sim U(-0.4, -0.2)$, by random assignment).
 
@@ -70,7 +70,7 @@ The project simulates three different sets of model parameters and produces corr
 
 Under `abm-project`, create the following files
 
-- `PROMPT.md` containing the prompt you used to describe the project to the AI for planning purposes
+- a `PROMPT.md` containing the prompt that describes the project to the AI for planning purposes
 
 - a `PLAN.md` that generates the ABM implementation
 
@@ -78,40 +78,47 @@ Under `abm-project`, create the following files
 
 - a `run_simulation.py` script that reproducibly runs the simulation and saves the results to a `results/` folder
 
-- at least one context-management artifact used in this project (`SKILL.md` or `SUBAGENT.md`)
-  - Make sure it is detailed enough to be useful.
-  - It should contain project-specific instructions, not just a copy of the assignment.
+- a context-management artifact used in this project `SKILL.md`
 
 - a `Dockerfile` that reproduces the project environment
 
-- a `README.md` with three main sections:
+<!-- - a `README.md` with three main sections:
   - **Model specification** describing agents, state variables, update rules, and metrics
   - **Results** summarizing the scientific conclusions (if any)
-  - **Reflection** on how you ensured accuracy of the codebase, and whether you now trust the results
+  - **Reflection** on how you ensured accuracy of the codebase, and whether you now trust the results -->
 
 ## ABM implementation
 
-- a class `Agent` that owns its belief, belief updating, and trading actions
+- a class `Agent` that owns its belief and contains methods for belief updating and trading actions.
 
-- a class `AIStockABM` that owns the agent list, random seed, histories of belief, action, and price. It allows specification of model parameters and contains methods for running the stimulation. 
+- a class `AIStockABM` that owns the agent list, random seed, histories of belief, action, and price. It should include the following key behaviors:
+  - allows specification of model parameters
+  - create $n$ agents with initial belief value $0$
+  - stimulate agent belief updating and trading actions at each time $t$
+  - compute aggregate trader behavior $B_{total}(t)$ and price of AI infrastructure stocks $P(t)$ at time $t$
 
-- a plotting function that visualizes the stimulation results. It should create one figure including three trajectories of $P(t)$ with respect to time $t$, each for one simluation scenario.
-
-## Test suite
-
-- a class from unittest that checks if parameters remain in bounds, if the same seed produces the same results, and if the model allows edge cases. 
-
-- test code that runs reduced models (i.e. a model with constant $I(t)$, a model without $N(t)$, and a model without $\epsilon_i(t)$ ) and produce corresponding figures. 
+- Plotting functions that visualizes the stimulation results. It should create 
+  - a figure including three trajectories of $P(t)$ with respect to time $t$, each for one simluation scenario
+  - a figure illustrating the belief trajectory for one of the agents
 
 
-# Rules
+# Context management
+
+## Rules
 
 - Do not generate files or modify files outside of `abm-project` folder
 
-- Do not modify the test files again once generated.
-
-- Write clean and understandable code. Each class or function should contain concise annotation.
+- Do not modify any test files again once generated. 
 
 - Do not modify files without the code being reviewed by the human user.
 
+## Skills
+
+Create a `SKILL.md` for storing the following skill description
+
+- Write clean and understandable code. Each class or function should contain concise annotation.
+
+- Before presenting newly changed code about ABM implementation
+  - run a test stimulation with a constant $I(t)$ and $N(t)$ = $\epsilon_i(t)$ = 0 and save the results
+  - run a test suite that checks for unbounded parameter values and validity under edge cases.
 
