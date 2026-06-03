@@ -72,28 +72,46 @@ Under `abm-project`, create the following files
 
 - `PROMPT.md` containing the prompt you used to describe the project to the AI for planning purposes
 
-- A `PLAN.md` that generates the ABM implementation
+- a `PLAN.md` that generates the ABM implementation
 
 - ABM implementation code
 
-- A `run_simulation.py` script that reproducibly runs the simulation and saves the results to a `results/` folder
+- a `run_simulation.py` script that reproducibly runs the simulation and saves the results to a `results/` folder
 
-- At least one context-management artifact used in this project (`SKILL.md` or `SUBAGENT.md`)
+- at least one context-management artifact used in this project (`SKILL.md` or `SUBAGENT.md`)
   - Make sure it is detailed enough to be useful.
   - It should contain project-specific instructions, not just a copy of the assignment.
 
-- A `Dockerfile` that reproduces the project environment
+- a `Dockerfile` that reproduces the project environment
 
-- A `README.md` with three main sections:
+- a `README.md` with three main sections:
   - **Model specification** describing agents, state variables, update rules, and metrics
   - **Results** summarizing the scientific conclusions (if any)
   - **Reflection** on how you ensured accuracy of the codebase, and whether you now trust the results
 
 ## ABM implementation
 
-- A class `Agent` that owns its belief, belief updating, and trading actions
+- a class `Agent` that owns its belief, belief updating, and trading actions
 
-- A class `AIStockABM` that 
+- a class `AIStockABM` that owns the agent list, random seed, histories of belief, action, and price. It allows specification of model parameters and contains methods for running the stimulation. 
 
+- a plotting function that visualizes the stimulation results. It should create one figure including three trajectories of $P(t)$ with respect to time $t$, each for one simluation scenario.
+
+## Test suite
+
+- a class from unittest that checks if parameters remain in bounds, if the same seed produces the same results, and if the model allows edge cases. 
+
+- test code that runs reduced models (i.e. a model with constant $I(t)$, a model without $N(t)$, and a model without $\epsilon_i(t)$ ) and produce corresponding figures. 
+
+
+# Rules
+
+- Do not generate files or modify files outside of `abm-project` folder
+
+- Do not modify the test files again once generated.
+
+- Write clean and understandable code. Each class or function should contain concise annotation.
+
+- Do not modify files without the code being reviewed by the human user.
 
 
