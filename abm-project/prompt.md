@@ -15,10 +15,15 @@ b_i(t + 1) = \gamma b_i(t) + \delta (I(t) - N(t)) + \epsilon_i(t)
 $$
 
 $b_i(t) \in [0,1]$ : belief of trader (i) at time (t) that AI infrastructure will increase in value in the future
+
 $I(t)= 0.05 + 0.005t$ : positive AI-related information at time (t)
+
 $N(t) = (1 + \sin(\pi t))/2$: negative AI-related information at time (t)
+
 $\epsilon_i(t) \sim N(0, 0.05)$: individual uncertainty at time (t)
+
 $\gamma = 0.05$: belief retained rate
+
 $\delta = 0.02$: information sensitivity
 
 ### 2. Trading actions
@@ -35,7 +40,9 @@ B_i(t)=
 $$
 
 $B_i(t)$: buying (B_i(t) = 1), selling (B_i(t) = -1), or no behavior (B_i(t) = 0) of trader (i) at time (t)
+
 $\theta_{l_i} \in [0, 1]$: individual threshold that triggers selling
+
 $\theta_{u_i} \in [0, 1]$: individual threshold that triggers buying
 
 ### 3. Price dynamics
@@ -51,6 +58,7 @@ B_{total}(t) = \sum B_i(t)
 $$
 
 $P(t)$: price of AI infrastructure stocks at (t)
+
 $B_{total}(t)$: aggregate trader behavior at time (t)
 
 ## Simulation scenarios
