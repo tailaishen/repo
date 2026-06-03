@@ -15,8 +15,8 @@ $$
 b_i(t + 1) = \gamma b_i(t) + \delta (I(t) - N(t)) + \epsilon_i(t)
 $$
 
-* (b_i(t) \in [0,1]): belief of trader (i) at time (t) that AI infrastructure will increase in value in the future
-* (I(t)= 0.05 + 0.005t): positive AI-related information at time (t)
+$b_i(t) \in [0,1]$ : belief of trader (i) at time (t) that AI infrastructure will increase in value in the future
+$I(t)= 0.05 + 0.005t$ : positive AI-related information at time (t)
 * (N(t) = (1 + \sin(\pi t))/2): negative AI-related information at time (t)
 * (\epsilon_i(t) \sim N(0, 0.05)): individual uncertainty at time (t)
 * (\gamma = 0.05): belief retained rate
