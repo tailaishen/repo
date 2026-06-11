@@ -106,9 +106,9 @@ Under `abm-project`, create the following files
 
 ## ABM testing
 
-a test suite for the ABM imlementation. It should checks if parameters remain in bounds and if the same seed produces the same results. Also, it should run simulations and save corresponding output figrues for reduced ABM models, including 
+- a test suite for the ABM imlementation. It should checks if parameters remain in bounds and if the same seed produces the same results. Also, it should run simulations and save corresponding output figrues for reduced ABM models, including 
   - a model without $N(t)$ and $\epsilon_i(t)$
-  - a model with constant $I(t)$ and $N(t)$ and without $\epsilon_i(t)$
+  - a model with constant $I(t)$ and $N(t)$ and no $\epsilon_i(t)$
 
 # Context management
 
