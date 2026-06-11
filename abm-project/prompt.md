@@ -4,31 +4,35 @@ Help me plan a python project that builds and analyzes an agent-based model. Rea
 
 ## Model specification
 
-The project constructus a model of individual traders updating their believes about AI infrastructure stocks given AI-related information and buying or selling AI infrastructure stocks when their believes reach certain thresholds. Together, traders' actions should lead to price increase in AI infrastructure stocks, where the exact behaviors of price are determined by the threshold parameters. The model should contain the following components:
+The research question of this project is: How do individual traders' responses to the green energy transition narrative collectively lead to delayed price increases in green energy infrastructure stocks?The project constructs a model in which individual traders update their beliefs about green energy infrastructure stocks based on green energy-related information and buy or sell these stocks when their beliefs reach certain thresholds. The collective actions of traders should generate price increases in green energy infrastructure stocks, where the timing and pattern of the price dynamics are determined by the threshold parameters. The model should contain the following components:
 
 ### 1. Belief updating
 
 Each agent (i = 1,...,n) represents an individual trader who updates belief following
 
 $$
-b_i(t + 1) = \gamma b_i(t) + \delta (I(t) - N(t)) + \epsilon_i(t)
+x_i(t + 1) = \gamma x_i(t) + \delta (I(t) - N(t)) + \epsilon_i(t)
 $$
 
-$b_i(t) \in [0,1]$ : belief of trader (i) at time (t) that AI infrastructure will increase in value in the future
+$$
+b_i(t+1) = \tanh\left(x_i(t+1)\right)
+$$
 
-$I(t)= 0.05 + 0.005t$ : positive AI-related information at time (t)
+$b_i(t) \in (-1, 1)$ : belief of trader (i) at time (t) that green energy infrastructure will increase in value in the future
 
-$N(t) = (1 + \sin(\pi t))/2$: negative AI-related information at time (t)
+$I(t)= 0.2 + 0.05t$ : positive green energy information at time (t)
 
-$\epsilon_i(t) \sim N(0, 0.05)$: individual uncertainty at time (t)
+$N(t) = (1 + 0.3\sin(\frac{\pi t}{10}))/2$: negative green energy information at time (t)
 
-$\gamma = 0.05$: belief retained rate
+$\epsilon_i(t) \sim N(0, 0.02^2)$: individual uncertainty at time (t)
 
-$\delta = 0.02$: information sensitivity
+$\gamma = 0.9$: belief retained rate
+
+$\delta = 0.3$: information sensitivity
 
 ### 2. Trading actions
 
-Each agent (i) takes action about AI infrastructure stocks following
+Each agent (i) takes action about green energy stocks following
 
 $$
 B_i(t)=
@@ -41,13 +45,13 @@ $$
 
 $B_i(t)$: buying (B_i(t) = 1), selling (B_i(t) = -1), or no behavior (B_i(t) = 0) of trader (i) at time (t)
 
-$\theta_{l_i} \in [0, 1]$: individual threshold that triggers selling
+$\theta_{l_i} \in (-1, 0)$: individual threshold that triggers selling
 
-$\theta_{u_i} \in [0, 1]$: individual threshold that triggers buying
+$\theta_{u_i} \in (0, 1)$: individual threshold that triggers buying
 
 ### 3. Price dynamics
 
-AI infrastructure price updates following
+Green energy infrastructure price updates following
 
 $$
 P(t + 1) = P(t) + B_{total}(t)
@@ -57,7 +61,7 @@ $$
 B_{total}(t) = \sum B_i(t)
 $$
 
-$P(t)$: price of AI infrastructure stocks at (t)
+$P(t)$: price of green energy infrastructure stocks at (t)
 
 $B_{total}(t)$: aggregate trader behavior at time (t)
 
@@ -65,11 +69,11 @@ $B_{total}(t)$: aggregate trader behavior at time (t)
 
 The project simulates three different sets of model parameters and produces corresponding outputs to compare three scenarios:
 
-- Traders have low buying thresholds $\theta_{l_i} \sim U(0.2, 0.4)$ and high selling thresholds $\theta_{u_i} \sim U(-0.8, -0.6)$.
+- Aggressive buyers: traders have low buying thresholds $\theta_{u_i} \sim U(0.2, 0.4)$ and high selling thresholds $\theta_{l_i} \sim U(-0.8, -0.6)$.
 
-- Traders have high buying thresholds $\theta_{l_i} \sim U(0.6, 0.8)$ and low selling thresholds $\theta_{u_i} \sim U(-0.4, -0.2)$.
+- Conservative buyers: traders have high buying thresholds $\theta_{u_i} \sim U(0.6, 0.8)$ and low selling thresholds $\theta_{l_i} \sim U(-0.4, -0.2)$.
 
-- Traders have mixed thresholds (half has $\theta_{l_i} \sim U(0.2, 0.4)$ and $\theta_{u_i} \sim U(-0.8, -0.6)$, the other half has $\theta_{l_i} \sim U(0.6, 0.8)$ and $\theta_{u_i} \sim U(-0.4, -0.2)$, by random assignment).
+- Mixed buyers: traders have mixed thresholds (half has $\theta_{u_i} \sim U(0.2, 0.4)$ and $\theta_{l_i} \sim U(-0.8, -0.6)$, the other half has $\theta_{u_i} \sim U(0.6, 0.8)$ and $\theta_{l_i} \sim U(-0.4, -0.2)$, by random assignment).
 
 
 # Engineering goals
@@ -78,55 +82,41 @@ The project simulates three different sets of model parameters and produces corr
 
 Under `abm-project`, create the following files
 
-- a `PROMPT.md` containing the prompt that describes the project to the AI for planning purposes
-
 - a `PLAN.md` that generates the ABM implementation
 
 - ABM implementation code
 
 - a `run_simulation.py` script that reproducibly runs the simulation and saves the results to a `results/` folder
 
-- a context-management artifact used in this project `SKILL.md`
-
-- a `Dockerfile` that reproduces the project environment
-
-<!-- - a `README.md` with three main sections:
-  - **Model specification** describing agents, state variables, update rules, and metrics
-  - **Results** summarizing the scientific conclusions (if any)
-  - **Reflection** on how you ensured accuracy of the codebase, and whether you now trust the results -->
+- ABM test code
 
 ## ABM implementation
 
 - a class `Agent` that owns its belief and contains methods for belief updating and trading actions.
 
-- a class `AIStockABM` that owns the agent list, random seed, histories of belief, action, and price. It should include the following key behaviors:
+- a class `GreenStockABM` that owns the agent list, random seed, histories of belief, action, and price. It should include the following key behaviors:
   - allows specification of model parameters
   - create $n$ agents with initial belief value $0$
-  - stimulate agent belief updating and trading actions at each time $t$
-  - compute aggregate trader behavior $B_{total}(t)$ and price of AI infrastructure stocks $P(t)$ at time $t$
+  - simulate agent belief updating and trading actions at each time $t$
+  - compute aggregate trader behavior $B_{total}(t)$ and price of green energy infrastructure stocks $P(t)$ at time $t$
 
-- Plotting functions that visualizes the stimulation results. It should create 
+- Plotting functions that visualizes the simulation results. It should generate
   - a figure including three trajectories of $P(t)$ with respect to time $t$, each for one simluation scenario
   - a figure illustrating the belief trajectory for one of the agents
 
+## ABM testing
+
+a test suite for the ABM imlementation. It should checks if parameters remain in bounds and if the same seed produces the same results. Also, it should run simulations and save corresponding output figrues for reduced ABM models, including 
+  - a model without $N(t)$ and $\epsilon_i(t)$
+  - a model with constant $I(t)$ and $N(t)$ and without $\epsilon_i(t)$
 
 # Context management
 
-## Rules
+Always read and follow the specifications in `skill.md` and `.cursor/rules/project_rules.md` before generating or modifying code.
 
-- Do not generate files or modify files outside of `abm-project` folder
+# What I want from you first
 
-- Do not modify any test files again once generated. 
+Before writing any code, produce:
 
-- Do not modify files without the code being reviewed by the human user.
-
-## Skills
-
-Create a `SKILL.md` for storing the following skill description
-
-- Write clean and understandable code. Each class or function should contain concise annotation.
-
-- Before presenting newly changed code about ABM implementation
-  - run a test stimulation with a constant $I(t)$ and $N(t)$ = $\epsilon_i(t)$ = 0 and save the results
-  - run a test suite that checks for unbounded parameter values and validity under edge cases.
-
+- A brief description of the class hierarchy and how data flows from Agent up through GreenStockABM to the plotting functions.
+- A detailed implementation plan stored in `PLAN.md`.
